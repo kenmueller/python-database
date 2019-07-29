@@ -10,15 +10,15 @@ class Database:
 	def __str__(self):
 		acc = []
 		for collection in self.collections:
-			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} (collection)')
+			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} ({"empty " if len(collection.documents) == 0 else ""}collection)')
 			for document in collection.documents:
 				base_dashes = '-' * len(document.path.split('/'))
-				acc.append(f'{base_dashes} {document.id} (document)')
-				if document.get() is None:
-					acc.append(f'{base_dashes}- (empty)')
-				else:
-					for key, value in document.get().items():
-						acc.append(f'{base_dashes}- {key}: {value} ({str(type(value))[8:][:-2]})')
+				empty = document.get() is None
+				acc.append(f'{base_dashes} {document.id} ({"empty " if empty else ""}document)')
+				if empty:
+					continue
+				for key, value in document.get().items():
+					acc.append(f'{base_dashes}- {key}: {value} ({str(type(value))[8:][:-2]})')
 		return '\n'.join(acc) if len(acc) else '(empty)'
 
 	def collection(self, path):
