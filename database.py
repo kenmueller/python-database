@@ -12,7 +12,13 @@ class Database:
 		for collection in self.collections:
 			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} (collection)')
 			for document in collection.documents:
-				acc.append('-' * len(document.path.split('/')) + f' {document.id} (document)')
+				base_dashes = '-' * len(document.path.split('/'))
+				acc.append(f'{base_dashes} {document.id} (document)')
+				if document.get() is None:
+					acc.append(f'{base_dashes}- (empty)')
+				else:
+					for key, value in document.get().items():
+						acc.append(f'{base_dashes}- {key}: {value} ({str(type(value))[8:][:-2]})')
 		return '\n'.join(acc) if len(acc) else '(empty)'
 
 	def collection(self, path):
