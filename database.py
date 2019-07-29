@@ -10,10 +10,10 @@ class Database:
 	def __str__(self):
 		acc = []
 		for collection in self.collections:
-			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} (collection)\n')
+			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} (collection)')
 			for document in collection.documents:
-				acc.append('-' * len(document.path.split('/')) + f' {document.id} (document)\n')
-		return ''.join(acc)[:-1] if len(acc) else '(empty)'
+				acc.append('-' * len(document.path.split('/')) + f' {document.id} (document)')
+		return '\n'.join(acc) if len(acc) else '(empty)'
 
 	def collection(self, path):
 		segments = list(filter(len, path.split('/')))
