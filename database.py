@@ -59,7 +59,7 @@ class Database:
 			self.documents.append(document)
 			return document
 		
-		def add(self, data):
+		def add(self, data = None):
 			string = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
 			string_length = len(string)
 			return self.document(''.join([string[int(random() * string_length)] for _ in range(self.database.random_id_length)]), data)
