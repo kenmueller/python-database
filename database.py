@@ -7,6 +7,14 @@ class Database:
 		self.documents = []
 		self.random_id_length = random_id_length
 
+	def __str__(self):
+		acc = []
+		for collection in self.collections:
+			acc.append('-' * len(collection.path.split('/')) + f' {collection.id} (collection)\n')
+			for document in collection.documents:
+				acc.append('-' * len(document.path.split('/')) + f' {document.id} (document)\n')
+		return ''.join(acc)[:-1] if len(acc) else '(empty)'
+
 	def collection(self, path):
 		segments = list(filter(len, path.split('/')))
 		segments_length = len(segments)
@@ -36,11 +44,12 @@ class Database:
 	class Collection:		
 		def __init__(self, database, path):
 			self.database = database
+			self.id = path.split('/')[-1]
 			self.path = path
 			self.documents = []
 		
 		def document(self, path, data = None):
-			document = self.database.document(self.path + '/' + path, data)
+			document = self.database.document(f'{self.path}/{path}', data)
 			self.documents.append(document)
 			return document
 		
@@ -57,7 +66,7 @@ class Database:
 			self.data = data
 
 		def collection(self, path):
-			return self.database.collection(self.path + '/' + path)
+			return self.database.collection(f'{self.path}/{path}')
 
 		def get(self):
 			return self.data

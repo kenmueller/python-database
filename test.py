@@ -11,3 +11,4 @@ if __name__ == '__main__':
 	print(document.get())
 	print(document.id)
 	print(len(collection.documents))
+	print(db)
